@@ -16,7 +16,11 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('username', 30);
-            $table->timestamp('created_at');
+            $table->string('fullname')->nullable();
+            $table->text('biography')->nullable();
+            $table->string('profile_pic_filename', 512)->nullable();
+            $table->boolean('is_verified')->nullable();
+            $table->timestamps();
         });
     }
 
