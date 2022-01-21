@@ -2,13 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\ProxyEditScreen;
+use App\Orchid\Screens\ProxyListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -30,8 +25,12 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 // Main
-Route::screen('/main', PlatformScreen::class)
-    ->name('platform.main');
+Route::screen('/main', ProxyListScreen::class)
+    ->name('platform.proxy.list');
+
+Route::screen('proxy/{proxy?}', ProxyEditScreen::class)
+    ->name('platform.proxy.edit');
+
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
@@ -95,21 +94,3 @@ Route::screen('roles', RoleListScreen::class)
             ->parent('platform.index')
             ->push(__('Roles'), route('platform.systems.roles'));
     });
-
-// Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push('Example screen');
-    });
-
-Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-
-//Route::screen('idea', 'Idea::class','platform.screens.idea');
