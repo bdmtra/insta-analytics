@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('instagram:parse')->everyFiveMinutes();
+        $schedule->command('instagram:parse-account')->everyFiveMinutes();
+        $schedule->command('instagram:parse-posts')->everyFiveMinutes();
     }
 
     /**

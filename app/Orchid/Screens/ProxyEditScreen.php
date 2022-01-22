@@ -92,6 +92,7 @@ class ProxyEditScreen extends Screen
             Layout::rows([
                 Input::make('proxy.uri')
                     ->title('URI')
+                    ->help('protocol://username:password@adress:port')
             ])
         ];
     }

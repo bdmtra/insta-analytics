@@ -22,12 +22,12 @@
             <div class="col-md-12 col-lg-4 d-flex justify-content-around align-items-center mt-4 mt-lg-0 pl-sm-0">
                 <div class="col d-flex flex-column justify-content-center">
                     Followers
-                    <p class="report-header-number">{{ $account->lastStat->followers_count}}</p>
+                    <p class="report-header-number">{{ number_format($account->lastStat->followers_count, 0, '.', ',')}}</p>
                 </div>
 
                 <div class="col d-flex flex-column justify-content-center">
                     Uploads
-                    <p class="report-header-number">{{ $account->lastStat->uploads_count}}</p>
+                    <p class="report-header-number">{{ number_format($account->lastStat->uploads_count, 0, '.', ',')}}</p>
                 </div>
 
                 <div class="col d-flex flex-column justify-content-center">
@@ -344,7 +344,7 @@
                         </a>
                     </td>
                     <td><img src="{{ asset('storage/'.$account->profile_pic_filename) }}" class="img-responsive rounded-circle instagram-avatar-small"></td>
-                    <td><span>{{ date('Y-m-d', strtotime($post['last_stat']['created_at'])) }}</span></td>
+                    <td><span>{{ date('Y-m-d', strtotime($post['external_created_at'])) }}</span></td>
                     <td><span data-toggle="tooltip" title="{{ $post['caption'] }}">{{ \Illuminate\Support\Str::limit($post['caption'], 30, $end='...') }}</span></td>
                     <td>
                         <i class="fa fa-fw fa-heart like-color"></i>
@@ -353,7 +353,7 @@
                             @php ($likes_change_percentage = (($post['likes_count'] - $account->averageStat('likes_count'))/$account->averageStat('likes_count')) * 100 )
                             @if ($likes_change_percentage > 0)
                                 <span style="color: #28a745 !important;">+{{ number_format($likes_change_percentage, 0, '.', ',') }}%</span>
-                            @elseif ($average_uploads_count_change_per_day < 0)
+                            @elseif ($likes_change_percentage < 0)
                                 <span style="color: #dc3545 !important;">{{ number_format($likes_change_percentage, 0, '.', ',')  }}%</span>
                             @else
                                 0%

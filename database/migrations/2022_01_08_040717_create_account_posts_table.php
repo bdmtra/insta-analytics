@@ -21,7 +21,7 @@ class CreateAccountPostsTable extends Migration
             $table->string('link')->nullable();
             $table->json('mentions')->nullable();
             $table->json('hashtags')->nullable();
-            $table->string('caption')->nullable();
+            $table->text('caption')->nullable();
             $table->dateTime('external_created_at')->nullable();
             $table->timestamp('created_at');
         });

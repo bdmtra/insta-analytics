@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use App\Models\AccountPost;
+use App\Services\InstagramParser;
 use Illuminate\Http\Request;
 use Validator;
 use Input;
 use Redirect;
-
-use \InstagramScraper\Instagram;
-use \GuzzleHttp\Client;
-use Phpfastcache\Helper\Psr16Adapter;
+use InstagramScraper\Exception\InstagramNotFoundException;
+use Illuminate\Support\Carbon;
 
 class AccountController extends Controller
 {
@@ -21,19 +19,36 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $username =  Input::get('username');
+        $account = Account::firstWhere('username', $username);
+        if ($account) {
+            return Redirect::to('/account/show/'.$username);
+        }
+
         $validator = Validator::make(Input::all(), [
             'username' => 'required|max:30',
         ]);
-        if ($validator->fails()) {
-            return Redirect::to('/')
-                ->withErrors($validator)
-                ->withInput(Input::all());
+        if ($validator->failed()) {
+            return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
         } else {
-            $username =  Input::get('username');
-            $account = Account::firstOrNew([
+            $instagramParser = new InstagramParser();
+            try {
+                $accountResponse = $instagramParser->fetchAccount($username);
+            } catch (InstagramNotFoundException $exception) {
+                $validator->errors()->add('username', 'Such Instagram account doesn\'t exist');
+                return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
+            }
+            if(!$accountResponse) {
+                $validator->errors()->add('username', 'Can\'t process this request now');
+                return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
+            }
+            $account = Account::create([
                 'username' => $username
             ]);
-            $account->save();
+            $account->saveAccountStat($accountResponse);
+            $account->update([
+                'data_captured_at' => Carbon::now()->toDateTimeString()
+            ]);
 
             return Redirect::to('/account/show/'.$username);
         }
@@ -56,7 +71,8 @@ class AccountController extends Controller
                     "label" => "Followers",
                     'data' => array_reverse($account->stats()->limit(15)->get()->pluck('followers_count')->toArray()),
                 ],
-            ]);
+            ])
+            ;
 
         $lineFollowingChart = app()->chartjs
             ->name('lineFollowingChart')

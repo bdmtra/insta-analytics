@@ -12,7 +12,7 @@ class AccountPost extends Model
     public $timestamps = ["created_at"];
 
     protected $appends = ['likes_count', 'comments_count', 'caption_word_count'];
-    protected $fillable = ['account_id', 'shortcode', 'type', 'link', 'mentions', 'hashtags', 'caption'];
+    protected $fillable = ['account_id', 'shortcode', 'type', 'link', 'mentions', 'hashtags', 'caption', 'external_created_at'];
     protected $casts = [
         'mentions' => 'array',
         'hashtags' => 'array',

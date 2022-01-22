@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AccountPost;
-use App\Models\AccountStat;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
+
 
 class Account extends Model
 {
-    protected $appends = ['engagement_percentage', ''];
-    protected $fillable = ['username', 'fullname', 'biography', 'profile_pic_filename', 'is_verified'];
+    public $timestamps = ["created_at"];
+
+    protected $appends = ['engagement_percentage'];
+    protected $fillable = ['username', 'fullname', 'biography', 'profile_pic_filename', 'is_verified', 'data_capture_status', 'data_captured_at', 'posts_data_capture_status', 'posts_data_captured_at'];
+
+    const UPDATED_AT = null;
+
+    const DATA_CAPTURE_STATUS_INACTIVE = 0;
+    const DATA_CAPTURE_STATUS_ACTIVE = 1;
 
     public function stats()
     {
@@ -24,7 +31,7 @@ class Account extends Model
 
     public function posts()
     {
-        return $this->hasMany(AccountPost::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(AccountPost::class)->orderBy('external_created_at', 'DESC');
     }
 
     public function averageStat($statName) {
@@ -56,5 +63,45 @@ class Account extends Model
             $result[$date] = array_sum(array_column(AccountPost::where('account_id', $this->id)->whereDate('external_created_at', $date)->get()->toArray(), ($attribute)));
         }
         return $result;
+    }
+
+    public function saveAccountStat($accountResponse) {
+        $profilePicUrl = $accountResponse->getProfilePicUrl();
+        $profilePicFilename = null;
+        if($profilePicUrl) {
+            $profilePicFilename = 'profile_pics/'.$this->username . '.jpg';
+            Storage::disk('public')->put($profilePicFilename, file_get_contents($profilePicUrl));
+        }
+        $this->update([
+            'fullname' => $accountResponse->getFullName(),
+            'biography' => $accountResponse->getBiography(),
+            'profile_pic_filename' => $profilePicFilename,
+            'is_verified' => $accountResponse->isVerified(),
+        ]);
+        AccountStat::create([
+            'account_id' => $this->id,
+            'following_count' => $accountResponse->getFollowsCount(),
+            'followers_count' => $accountResponse->getFollowedByCount(),
+            'uploads_count' => $accountResponse->getMediaCount(),
+        ]);
+    }
+
+    public function saveAccountPost($mediaResponse) {
+        $post = AccountPost::firstOrCreate(['shortcode' => $mediaResponse->getShortCode(), 'account_id' => $this->id]);
+        preg_match_all('/#\w+/iu', $mediaResponse->getCaption(), $hashtags);
+        $post->update([
+            'type' => $mediaResponse->getType(),
+            'link' => $mediaResponse->getLink(),
+            'mentions' =>  array_column($mediaResponse->getTaggedUsers(), 'username'),
+            'hashtags' => $hashtags[0],
+            'caption' => $mediaResponse->getCaption(),
+            'external_created_at' => Carbon::parse($mediaResponse->getCreatedTime())->toDateTimeString(),
+        ]);
+
+        AccountPostStat::create([
+            'account_post_id' => $post->id,
+            'likes_count' => $mediaResponse->getLikesCount(),
+            'comments_count' => $mediaResponse->getCommentsCount(),
+        ]);
     }
 }

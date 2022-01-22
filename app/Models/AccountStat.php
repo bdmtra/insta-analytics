@@ -49,7 +49,7 @@ class AccountStat extends Model
         $query = $this->account->posts()->limit(10)->whereDate('created_at',  '<=', $this->created_at);
         $postsArray = $query->get()->toArray();
         $sum = array_sum(array_column($postsArray, $statName));
-        $count = $query->count();
+        $count = count($postsArray);
         return $count ? (int) floor($sum/$count) : 0;
     }
 

@@ -25,8 +25,9 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 // Main
-Route::screen('/main', ProxyListScreen::class)
-    ->name('platform.proxy.list');
+
+Route::screen('main', ProxyListScreen::class)
+    ->name('platform.main');
 
 Route::screen('proxy/{proxy?}', ProxyEditScreen::class)
     ->name('platform.proxy.edit');
@@ -94,3 +95,9 @@ Route::screen('roles', RoleListScreen::class)
             ->parent('platform.index')
             ->push(__('Roles'), route('platform.systems.roles'));
     });
+
+Route::screen('proxy/{proxy?}', ProxyEditScreen::class)
+    ->name('platform.proxy.edit');
+
+Route::screen('proxies', ProxyListScreen::class)
+    ->name('platform.proxy.list');
