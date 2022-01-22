@@ -75,7 +75,7 @@ class InstagramParser
     }
 
     public function setNewProxy() {
-        $query = Proxy::orderBy('id');
+        $query = Proxy::orderBy('id','DESC');
         if ($this->currentProxy !== null) {
             $query->where('id', '>', $this->currentProxy->id);
         }

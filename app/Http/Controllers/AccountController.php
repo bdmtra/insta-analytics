@@ -46,6 +46,9 @@ class AccountController extends Controller
                 'username' => $username
             ]);
             $account->saveAccountStat($accountResponse);
+            foreach ($accountResponse['medias'] as $media) {
+                $account->saveAccountPost($media);
+            }
             $account->update([
                 'data_captured_at' => Carbon::now()->toDateTimeString()
             ]);
