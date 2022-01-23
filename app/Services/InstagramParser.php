@@ -23,8 +23,8 @@ class InstagramParser
     public function fetchAccount($username) {
         $accountResponse = null;
         while (!$accountResponse) {
+            $accountResponse = $this->scrapper->getAccount($username);
             try {
-                $accountResponse = $this->scrapper->getAccount($username);
             } catch (InstagramException $exception) {
                 $this->setNewScraper();
             } catch (RequestException $exception) {

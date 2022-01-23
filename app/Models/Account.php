@@ -52,7 +52,7 @@ class Account extends Model
     }
 
     public function postDates($limit) {
-        $result = AccountPost::select(DB::raw('DATE(external_created_at) as external_created_at_date'))->where('account_id', $this->id)->orderByDesc('external_created_at_date')->distinct()->limit($limit)->get();
+        $result = AccountPost::select(DB::raw('DATE(external_created_at) as external_created_at_date'))->where('account_id', $this->id)->orderBy('external_created_at_date')->distinct()->limit($limit)->get();
         return $result->pluck('external_created_at_date')->all();
     }
 
@@ -60,7 +60,7 @@ class Account extends Model
         $dates = $this->postDates($limit);
         $result = [];
         foreach ($dates as $date) {
-            $result[$date] = array_sum(array_column(AccountPost::where('account_id', $this->id)->whereDate('external_created_at', $date)->get()->toArray(), ($attribute)));
+            $result[$date] = array_sum(array_column(AccountPost::where('account_id', $this->id)->whereDate('external_created_at', $date)->get()->toArray(), $attribute));
         }
         return $result;
     }

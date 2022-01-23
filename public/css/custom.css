@@ -367,6 +367,7 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 	position: relative;
 	margin: auto;
 	width: 100%;
+    margin-top: 1rem;
 }
 
 .admin-widget-chart-container {

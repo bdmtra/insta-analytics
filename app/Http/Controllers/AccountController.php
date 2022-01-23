@@ -65,57 +65,80 @@ class AccountController extends Controller
     {
         $account = Account::where('username', $username)->firstOrFail();
 
+        $defaultChartSizes = ['width' => 1116,'height' => 250];
+        $defaultChartOptionsRaw = function ($legend) { return '{tooltips:{mode:"index",intersect:!1,callbacks:{label:(e,a)=>{let t=a.datasets[e.datasetIndex].data[e.index];return number_format(t,0,".",",")+" "+a.datasets[e.datasetIndex].label}}},legend:{display:'.$legend.'},responsive:!0,maintainAspectRatio:!1,scales:{yAxes:[{gridLines:{display:!1},ticks:{userCallback:(e,a,t)=>{if(Math.floor(e)===e)return number_format(e,0,".",",")}}}],xAxes:[{gridLines:{display:!1}}]}}';};
         $lineFollowersChart = app()->chartjs
             ->name('lineFollowersChart')
             ->type('line')
+            ->size($defaultChartSizes)
             ->labels(array_reverse($account->stats()->limit(15)->get()->pluck('data_capture_date')->toArray()))
             ->datasets([
                 [
                     "label" => "Followers",
                     'data' => array_reverse($account->stats()->limit(15)->get()->pluck('followers_count')->toArray()),
+                    'borderColor' => '#2BE39B',
+                    'backgroundColor' => ['rgba(43, 227, 155, 0.6)', 'rgba(43, 227, 155, 0.05)'],
+                    'fill' => true
                 ],
-            ])
-            ;
+            ])->optionsRaw($defaultChartOptionsRaw('false'));
 
         $lineFollowingChart = app()->chartjs
             ->name('lineFollowingChart')
             ->type('line')
+            ->size($defaultChartSizes)
             ->labels(array_reverse($account->stats()->limit(15)->get()->pluck('data_capture_date')->toArray()))
             ->datasets([
                 [
                     "label" => "Following",
                     'data' => array_reverse($account->stats()->limit(15)->get()->pluck('following_count')->toArray()),
+                    'borderColor' => '#3ec1ff',
+                    'backgroundColor' => ['rgba(62, 193, 255, 0.6)', 'rgba(62, 193, 255, 0.05)'],
+                    'fill' => true
                 ],
-            ]);
+            ])->optionsRaw($defaultChartOptionsRaw('false'));
         $lineEngagementChart = app()->chartjs
             ->name('lineEngagementChart')
             ->type('line')
+            ->size($defaultChartSizes)
             ->labels(array_reverse($account->stats()->limit(15)->get()->pluck('data_capture_date')->toArray()))
             ->datasets([
                 [
                     "label" => "Engagement",
                     'data' => array_reverse($account->stats()->limit(15)->get()->pluck('engagement')->toArray()),
+                    'borderColor' => '#ED4956',
+                    'backgroundColor' => ['rgba(237, 73, 86, 0.4)', 'rgba(237, 73, 86, 0.05)'],
+                    'fill' => true
                 ],
-            ]);
+            ])->optionsRaw($defaultChartOptionsRaw('false'));
 
         $mediaStatLineChart = app()->chartjs
             ->name('mediaStatLineChart')
+            ->size($defaultChartSizes)
             ->type('line')
             ->labels($account->postDates(10))
             ->datasets([
                 [
                     "label" => "Likes",
-                    'data' => $account->postAttributeCountByDates(10, 'likes_count'),
+                    'data' => array_values($account->postAttributeCountByDates(10, 'likes_count')),
+                    'borderColor' => '#ED4956',
+                    'backgroundColor' => 'transparent',
+                    'fill' => true
                 ],
                 [
                     "label" => "Comments",
-                    'data' => $account->postAttributeCountByDates(10, 'comments_count'),
+                    'data' => array_values($account->postAttributeCountByDates(10, 'comments_count')),
+                    'borderColor' => '#3ec1ff',
+                    'backgroundColor' => 'transparent',
+                    'fill' => true
                 ],
                 [
                     "label" => "Caption Word Count",
-                    'data' => $account->postAttributeCountByDates(10, 'caption_word_count'),
+                    'data' => array_values($account->postAttributeCountByDates(10, 'caption_word_count')),
+                    'borderColor' => '#2BE39B',
+                    'backgroundColor' => 'transparent',
+                    'fill' => true
                 ],
-            ]);
+            ])->optionsRaw($defaultChartOptionsRaw('true'));
 
         $summaryStats = $account->stats()->limit(15)->get();
         $projectionTableData = [

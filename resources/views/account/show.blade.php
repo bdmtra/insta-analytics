@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-        <div class="d-flex flex-column flex-sm-row flex-wrap margin-bottom-6">
+        <div class="d-flex flex-column flex-sm-row flex-wrap margin-bottom-3 margin-top-3">
             <div class="col-sm-4 col-md-3 col-lg-2 pl-sm-0 d-flex justify-content-center justify-content-sm-start">
                 <img src="{{ asset('storage/'.$account->profile_pic_filename) }}" class="img-responsive rounded-circle instagram-avatar" alt="{{ $account->username }}">
             </div>
@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <div class="margin-bottom-6">
+        <div class="margin-bottom-3">
 
             <div class="row">
                 <div class="col">
@@ -84,13 +84,17 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-baseline align-items-md-center">
                 <h2>Statistics Summary</h2>
             </div>
-
-            <div class="chart-container">
-                {!! $lineFollowersChart->render() !!}
+            <div>
+                <h6 class="text-center">Followers evolution chart</h6>
+                <div class="chart-container">
+                    {!! $lineFollowersChart->render() !!}
+                </div>
             </div>
-
-            <div class="chart-container mt-3">
-                {!! $lineFollowingChart->render() !!}
+            <div class="margin-top-3">
+                <h6 class="text-center">Following evolution chart</h6>
+                <div class="chart-container">
+                    {!! $lineFollowingChart->render() !!}
+                </div>
             </div>
         </div>
 
@@ -100,7 +104,7 @@
                 <h2>Account Stats Summary</h2>
             </div>
 
-            <p class="text-muted">Showing last 15 entries.</p>
+            <p class="text-muted">Showing last {{ count($summaryStats) }} entries.</p>
 
             <table class="table table-responsive-md">
                 <thead class="thead-black bg-instagram">
@@ -196,9 +200,13 @@
             <h2>Average Engagement Rate Chart</h2>
             <p class="text-muted">Each value in this chart is equal to the Average Engagement Rate of the account in that specific day.</p>
 
-            <div class="chart-container">
-                {!! $lineEngagementChart->render() !!}
+            <div>
+                <h6 class="text-center">Average Engagement Rate</h6>
+                <div class="chart-container">
+                    {!! $lineEngagementChart->render() !!}
+                </div>
             </div>
+
 
         </div>
 
