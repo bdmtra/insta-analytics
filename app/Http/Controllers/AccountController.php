@@ -46,6 +46,7 @@ class AccountController extends Controller
                 'username' => $username
             ]);
             $account->saveAccountStat($accountResponse);
+            $account->addDummyAccountStat();
             foreach ($accountResponse['medias'] as $media) {
                 $account->saveAccountPost($media);
             }

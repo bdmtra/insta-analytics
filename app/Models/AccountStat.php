@@ -12,12 +12,16 @@ class AccountStat extends Model
     public $timestamps = ['created_at'];
 
     protected $appends = ['data_capture_date', 'data_capture_short_weekday', 'following_count_change', 'followers_count_change', 'uploads_count_change', 'engagement', 'engagement_percentage'];
-    protected $fillable = ['account_id', 'following_count', 'followers_count', 'uploads_count'];
+    protected $fillable = ['account_id', 'following_count', 'followers_count', 'uploads_count', 'created_at'];
 
     const UPDATED_AT = null;
 
+    const DUMMY_FOLLOWING_COUNT_CHANGE = -10;
+    const DUMMY_FOLLOWERS_COUNT_CHANGE = -10;
+    const DUMMY_UPLOADS_COUNT_CHANGE = -1;
+
     public function previous() {
-        return AccountStat::where([['id', '<', $this->id], ['account_id', '=',  $this->account_id]])->orderBy('id','DESC')->first();
+        return AccountStat::whereDate('created_at', '<', $this->created_at)->where('account_id', '=',  $this->account_id)->orderBy('created_at','DESC')->first();
     }
 
     public function getDataCaptureDateAttribute() {

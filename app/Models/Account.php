@@ -86,6 +86,16 @@ class Account extends Model
         ]);
     }
 
+    public function addDummyAccountStat() {
+        AccountStat::create([
+            'account_id' => $this->id,
+            'following_count' => max($this->lastStat->following_count + AccountStat::DUMMY_FOLLOWING_COUNT_CHANGE, 0),
+            'followers_count' => max($this->lastStat->followers_count + AccountStat::DUMMY_FOLLOWERS_COUNT_CHANGE, 0),
+            'uploads_count' => max($this->lastStat->uploads_count + AccountStat::DUMMY_UPLOADS_COUNT_CHANGE, 0),
+            'created_at' => Carbon::parse($this->lastStat->created_at)->subDays(1)->toDateTime(),
+        ]);
+    }
+
     public function saveAccountPost($mediaResponse) {
         $post = AccountPost::firstOrCreate(['shortcode' => $mediaResponse->getShortCode(), 'account_id' => $this->id]);
         preg_match_all('/#\w+/iu', $mediaResponse->getCaption(), $hashtags);
