@@ -48,7 +48,7 @@ class Account extends Model
 
     public function getAverageStatPerDayChange($statName, $statsPickLimit = 15) {
         $stats = $this->stats()->limit($statsPickLimit)->get();
-        return (int) floor($stats->sum($statName) / ($statsPickLimit - 1));
+        return (int) floor($stats->sum($statName) / (count($stats) - 1));
     }
 
     public function postDates($limit) {

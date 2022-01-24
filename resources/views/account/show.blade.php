@@ -212,61 +212,65 @@
 
         <div class="margin-bottom-6">
             <h2>Future Projections</h2>
-            <p class="text-muted">Here you can see the approximated future projections based on your previous days averages</p>
+            @if ($summaryStats->count() > 2)
+                <p class="text-muted">Here you can see the approximated future projections based on your previous days averages</p>
 
-            <table class="table table-responsive-md">
-                <thead class="thead-black">
-                <tr>
-                    <th>Time Until</th>
-                    <th>Date</th>
-                    <th>Followers</th>
-                    <th>Uploads</th>
-                </tr>
-                </thead>
+                <table class="table table-responsive-md">
+                    <thead class="thead-black">
+                    <tr>
+                        <th>Time Until</th>
+                        <th>Date</th>
+                        <th>Followers</th>
+                        <th>Uploads</th>
+                    </tr>
+                    </thead>
 
-                <tbody>
-                <tr class="bg-light">
-                    <td>Current Stats</td>
-                    <td>{{ $account->data_capture_date }}</td>
-                    <td>{{ $account->lastStat->followers_count}}</td>
-                    <td>{{ $account->lastStat->uploads_count}}</td>
-                </tr>
-                @foreach ($projectionTableData as $label => $numberOfDays)
-                <tr>
-                    <td>{{ $label }}</td>
-                    <td>{{ date('Y-m-d', strtotime($account->data_capture_date . " +{$numberOfDays} days")) }}</td>
-                    <td>{{ number_format(max($account->lastStat->followers_count + $account->getAverageStatPerDayChange('followers_count_change') * $numberOfDays, 0), 0, '.', ',') }}</td>
-                    <td>{{ number_format(max($account->lastStat->uploads_count + $account->getAverageStatPerDayChange('uploads_count_change') * $numberOfDays, 0), 0, '.', ',') }}</td>
-                </tr>
-                @endforeach
+                    <tbody>
+                    <tr class="bg-light">
+                        <td>Current Stats</td>
+                        <td>{{ $account->data_capture_date }}</td>
+                        <td>{{ $account->lastStat->followers_count}}</td>
+                        <td>{{ $account->lastStat->uploads_count}}</td>
+                    </tr>
+                    @foreach ($projectionTableData as $label => $numberOfDays)
+                    <tr>
+                        <td>{{ $label }}</td>
+                        <td>{{ date('Y-m-d', strtotime($account->data_capture_date . " +{$numberOfDays} days")) }}</td>
+                        <td>{{ number_format(max($account->lastStat->followers_count + $account->getAverageStatPerDayChange('followers_count_change') * $numberOfDays, 0), 0, '.', ',') }}</td>
+                        <td>{{ number_format(max($account->lastStat->uploads_count + $account->getAverageStatPerDayChange('uploads_count_change') * $numberOfDays, 0), 0, '.', ',') }}</td>
+                    </tr>
+                    @endforeach
 
-                <tr class="bg-light">
-                    <td colspan="2"><i class="fa fa-fw fa-calculator"></i> Based on an average of</td>
-                    <td>
-                        @php ($average_followers_count_change_per_day = $account->getAverageStatPerDayChange('followers_count_change'))
-                        @if ($average_followers_count_change_per_day > 0)
-                            <span style="color: #28a745 !important;">+{{ number_format($average_followers_count_change_per_day, 0, '.', ',') }}</span>
-                        @elseif ($average_followers_count_change_per_day < 0)
-                            <span style="color: #dc3545 !important;">{{  number_format($average_followers_count_change_per_day, 0, '.', ',')  }}</span>
-                        @else
-                            -
-                        @endif
-                        followers /day
-                    </td>
-                    <td>
-                        @php ($average_uploads_count_change_per_day = $account->getAverageStatPerDayChange('uploads_count_change'))
-                        @if ($average_uploads_count_change_per_day > 0)
-                            <span style="color: #28a745 !important;">+{{ number_format($average_uploads_count_change_per_day, 0, '.', ',') }}</span>
-                        @elseif ($average_uploads_count_change_per_day < 0)
-                            <span style="color: #dc3545 !important;">{{ number_format($average_uploads_count_change_per_day, 0, '.', ',')  }}</span>
-                        @else
-                            -
-                        @endif
-                        uploads /day
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    <tr class="bg-light">
+                        <td colspan="2"><i class="fa fa-fw fa-calculator"></i> Based on an average of</td>
+                        <td>
+                            @php ($average_followers_count_change_per_day = $account->getAverageStatPerDayChange('followers_count_change'))
+                            @if ($average_followers_count_change_per_day > 0)
+                                <span style="color: #28a745 !important;">+{{ number_format($average_followers_count_change_per_day, 0, '.', ',') }}</span>
+                            @elseif ($average_followers_count_change_per_day < 0)
+                                <span style="color: #dc3545 !important;">{{  number_format($average_followers_count_change_per_day, 0, '.', ',')  }}</span>
+                            @else
+                                -
+                            @endif
+                            followers /day
+                        </td>
+                        <td>
+                            @php ($average_uploads_count_change_per_day = $account->getAverageStatPerDayChange('uploads_count_change'))
+                            @if ($average_uploads_count_change_per_day > 0)
+                                <span style="color: #28a745 !important;">+{{ number_format($average_uploads_count_change_per_day, 0, '.', ',') }}</span>
+                            @elseif ($average_uploads_count_change_per_day < 0)
+                                <span style="color: #dc3545 !important;">{{ number_format($average_uploads_count_change_per_day, 0, '.', ',')  }}</span>
+                            @else
+                                -
+                            @endif
+                            uploads /day
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            @else
+                <p class="text-muted">We are getting Future Projections ready for you, check 24 hours later..</p>
+            @endif
         </div>
 
         <div class="margin-bottom-6 d-print-none">
