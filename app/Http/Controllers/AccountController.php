@@ -167,6 +167,7 @@ class AccountController extends Controller
             }
         }
         arsort($mentions);
+        $mentions = array_slice($mentions, 0, 5);
 
         foreach ($latestPosts as $post) {
             foreach ($post['hashtags'] as $hashtag) {
@@ -178,6 +179,7 @@ class AccountController extends Controller
             }
         }
         arsort($hashtags);
+        $hashtags = array_slice($hashtags, 0, 5);
 
         return view('account/show', compact('account', 'lineFollowersChart', 'lineFollowingChart', 'lineEngagementChart', 'mediaStatLineChart', 'summaryStats', 'projectionTableData', 'latestPosts', 'hashtags', 'mentions'));
     }
