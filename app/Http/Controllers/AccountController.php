@@ -9,6 +9,7 @@ use Validator;
 use Input;
 use Redirect;
 use InstagramScraper\Exception\InstagramNotFoundException;
+use App\Exceptions\InstagramParserNoProxiesException;
 use Illuminate\Support\Carbon;
 
 class AccountController extends Controller
@@ -37,9 +38,8 @@ class AccountController extends Controller
             } catch (InstagramNotFoundException $exception) {
                 $validator->errors()->add('username', 'Such Instagram account doesn\'t exist');
                 return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
-            }
-            if(!$accountResponse) {
-                $validator->errors()->add('username', 'Can\'t process this request now');
+            } catch (InstagramParserNoProxiesException $exception) {
+                $validator->errors()->add('username', 'Can\'t process this request now. Please try again later');
                 return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
             }
             $account = Account::create([

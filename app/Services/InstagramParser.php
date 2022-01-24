@@ -13,7 +13,10 @@ use GuzzleHttp\Exception\RequestException;
 class InstagramParser
 {
     public $currentProxy = null;
+    public $currentProxyErrorCount = null;
     public $scrapper = null;
+
+    const MAX_PROXY_ERRORS = 5;
 
     public function __construct()
     {
@@ -23,12 +26,12 @@ class InstagramParser
     public function fetchAccount($username) {
         $accountResponse = null;
         while (!$accountResponse) {
-            $accountResponse = $this->scrapper->getAccount($username);
             try {
+                $accountResponse = $this->scrapper->getAccount($username);
             } catch (InstagramException $exception) {
-                $this->setNewScraper();
+                $this->handleScrapperException();
             } catch (RequestException $exception) {
-                $this->setNewScraper();
+                $this->handleScrapperException();
             } catch (InstagramParserNoProxiesException $exception) {
                 return false;
             }
@@ -42,10 +45,9 @@ class InstagramParser
             try {
                 $mediasResponse = $this->scrapper->getPaginateMedias($username, $maxId);
             } catch (InstagramException $exception) {
-                $this->setNewScraper();
-
+                $this->handleScrapperException();
             } catch (RequestException $exception) {
-                $this->setNewScraper();
+                $this->handleScrapperException();
             } catch (InstagramParserNoProxiesException $exception) {
                 return false;
             }
@@ -69,6 +71,13 @@ class InstagramParser
         return true;
     }
 
+    public function handleScrapperException() {
+        $this->currentProxyErrorCount++;
+        if ($this->currentProxyErrorCount == self::MAX_PROXY_ERRORS) {
+            $this->setNewScraper();
+        }
+    }
+
     public function setNewScraper() {
         $this->setNewProxy();
         $this->scrapper = new Instagram(new Client(['proxy' => $this->currentProxy->uri]));
@@ -80,6 +89,7 @@ class InstagramParser
             $query->where('id', '>', $this->currentProxy->id);
         }
         $this->currentProxy = $query->first();
+        $this->currentProxyErrorCount = 0;
         if(!$this->currentProxy) {
             throw new InstagramParserNoProxiesException();
         }
