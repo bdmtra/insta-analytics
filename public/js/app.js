@@ -960,7 +960,7 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("__webpack_require__(/*! ./bootstrap */ \"./resources/js/bootstrap.js\");//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvYXBwLmpzLmpzIiwibWFwcGluZ3MiOiJBQUFBQSxtQkFBTyxDQUFDLGdEQUFELENBQVAiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvYXBwLmpzP2NlZDYiXSwic291cmNlc0NvbnRlbnQiOlsicmVxdWlyZSgnLi9ib290c3RyYXAnKTtcbiJdLCJuYW1lcyI6WyJyZXF1aXJlIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/js/app.js\n");
+eval("__webpack_require__(/*! ./bootstrap */ \"./resources/js/bootstrap.js\");\n\nvar number_format = function number_format(number, decimals) {\n  var dec_point = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';\n  var thousands_point = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ',';\n\n  if (number == null || !isFinite(number)) {\n    throw new TypeError(\"number is not valid\");\n  }\n\n  if (!decimals) {\n    var len = number.toString().split('.').length;\n    decimals = len > 1 ? len : 0;\n  }\n\n  number = parseFloat(number).toFixed(decimals);\n  number = number.replace('.', dec_point);\n  var splitNum = number.split(dec_point);\n  splitNum[0] = splitNum[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g, thousands_point);\n  number = splitNum.join(dec_point);\n  return number;\n};\n\ndocument.querySelector(\"#form-account-store\").addEventListener(\"submit\", function (e) {\n  document.querySelector(\"#form-account-store-help-text\").innerHTML = 'Searching profile ...';\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvYXBwLmpzLmpzIiwibWFwcGluZ3MiOiJBQUFBQSxtQkFBTyxDQUFDLGdEQUFELENBQVA7O0FBRUEsSUFBSUMsYUFBYSxHQUFHLFNBQWhCQSxhQUFnQixDQUFDQyxNQUFELEVBQVNDLFFBQVQsRUFBOEQ7QUFBQSxNQUEzQ0MsU0FBMkMsdUVBQS9CLEdBQStCO0FBQUEsTUFBMUJDLGVBQTBCLHVFQUFSLEdBQVE7O0FBRTlFLE1BQUdILE1BQU0sSUFBSSxJQUFWLElBQWtCLENBQUNJLFFBQVEsQ0FBQ0osTUFBRCxDQUE5QixFQUF3QztBQUNwQyxVQUFNLElBQUlLLFNBQUosQ0FBYyxxQkFBZCxDQUFOO0FBQ0g7O0FBRUQsTUFBRyxDQUFDSixRQUFKLEVBQWM7QUFDVixRQUFJSyxHQUFHLEdBQUdOLE1BQU0sQ0FBQ08sUUFBUCxHQUFrQkMsS0FBbEIsQ0FBd0IsR0FBeEIsRUFBNkJDLE1BQXZDO0FBQ0FSLElBQUFBLFFBQVEsR0FBR0ssR0FBRyxHQUFHLENBQU4sR0FBVUEsR0FBVixHQUFnQixDQUEzQjtBQUNIOztBQUVETixFQUFBQSxNQUFNLEdBQUdVLFVBQVUsQ0FBQ1YsTUFBRCxDQUFWLENBQW1CVyxPQUFuQixDQUEyQlYsUUFBM0IsQ0FBVDtBQUVBRCxFQUFBQSxNQUFNLEdBQUdBLE1BQU0sQ0FBQ1ksT0FBUCxDQUFlLEdBQWYsRUFBb0JWLFNBQXBCLENBQVQ7QUFFQSxNQUFJVyxRQUFRLEdBQUdiLE1BQU0sQ0FBQ1EsS0FBUCxDQUFhTixTQUFiLENBQWY7QUFDQVcsRUFBQUEsUUFBUSxDQUFDLENBQUQsQ0FBUixHQUFjQSxRQUFRLENBQUMsQ0FBRCxDQUFSLENBQVlELE9BQVosQ0FBb0IsdUJBQXBCLEVBQTZDVCxlQUE3QyxDQUFkO0FBQ0FILEVBQUFBLE1BQU0sR0FBR2EsUUFBUSxDQUFDQyxJQUFULENBQWNaLFNBQWQsQ0FBVDtBQUVBLFNBQU9GLE1BQVA7QUFDSCxDQXBCRDs7QUFzQkFlLFFBQVEsQ0FBQ0MsYUFBVCxDQUF1QixxQkFBdkIsRUFBOENDLGdCQUE5QyxDQUErRCxRQUEvRCxFQUF5RSxVQUFTQyxDQUFULEVBQVc7QUFDaEZILEVBQUFBLFFBQVEsQ0FBQ0MsYUFBVCxDQUF1QiwrQkFBdkIsRUFBd0RHLFNBQXhELEdBQW9FLHVCQUFwRTtBQUNILENBRkQiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvYXBwLmpzP2NlZDYiXSwic291cmNlc0NvbnRlbnQiOlsicmVxdWlyZSgnLi9ib290c3RyYXAnKTtcblxubGV0IG51bWJlcl9mb3JtYXQgPSAobnVtYmVyLCBkZWNpbWFscywgZGVjX3BvaW50ID0gJy4nLCB0aG91c2FuZHNfcG9pbnQgPSAnLCcpID0+IHtcblxuICAgIGlmKG51bWJlciA9PSBudWxsIHx8ICFpc0Zpbml0ZShudW1iZXIpKSB7XG4gICAgICAgIHRocm93IG5ldyBUeXBlRXJyb3IoXCJudW1iZXIgaXMgbm90IHZhbGlkXCIpO1xuICAgIH1cblxuICAgIGlmKCFkZWNpbWFscykge1xuICAgICAgICBsZXQgbGVuID0gbnVtYmVyLnRvU3RyaW5nKCkuc3BsaXQoJy4nKS5sZW5ndGg7XG4gICAgICAgIGRlY2ltYWxzID0gbGVuID4gMSA/IGxlbiA6IDA7XG4gICAgfVxuXG4gICAgbnVtYmVyID0gcGFyc2VGbG9hdChudW1iZXIpLnRvRml4ZWQoZGVjaW1hbHMpO1xuXG4gICAgbnVtYmVyID0gbnVtYmVyLnJlcGxhY2UoJy4nLCBkZWNfcG9pbnQpO1xuXG4gICAgbGV0IHNwbGl0TnVtID0gbnVtYmVyLnNwbGl0KGRlY19wb2ludCk7XG4gICAgc3BsaXROdW1bMF0gPSBzcGxpdE51bVswXS5yZXBsYWNlKC9cXEIoPz0oXFxkezN9KSsoPyFcXGQpKS9nLCB0aG91c2FuZHNfcG9pbnQpO1xuICAgIG51bWJlciA9IHNwbGl0TnVtLmpvaW4oZGVjX3BvaW50KTtcblxuICAgIHJldHVybiBudW1iZXI7XG59XG5cbmRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIjZm9ybS1hY2NvdW50LXN0b3JlXCIpLmFkZEV2ZW50TGlzdGVuZXIoXCJzdWJtaXRcIiwgZnVuY3Rpb24oZSl7XG4gICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIiNmb3JtLWFjY291bnQtc3RvcmUtaGVscC10ZXh0XCIpLmlubmVySFRNTCA9ICdTZWFyY2hpbmcgcHJvZmlsZSAuLi4nO1xufSk7XG4iXSwibmFtZXMiOlsicmVxdWlyZSIsIm51bWJlcl9mb3JtYXQiLCJudW1iZXIiLCJkZWNpbWFscyIsImRlY19wb2ludCIsInRob3VzYW5kc19wb2ludCIsImlzRmluaXRlIiwiVHlwZUVycm9yIiwibGVuIiwidG9TdHJpbmciLCJzcGxpdCIsImxlbmd0aCIsInBhcnNlRmxvYXQiLCJ0b0ZpeGVkIiwicmVwbGFjZSIsInNwbGl0TnVtIiwiam9pbiIsImRvY3VtZW50IiwicXVlcnlTZWxlY3RvciIsImFkZEV2ZW50TGlzdGVuZXIiLCJlIiwiaW5uZXJIVE1MIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./resources/js/app.js\n");
 
 /***/ }),
 
@@ -1031,7 +1031,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -1045,20 +1045,20 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
 /******/ 	(() => {
@@ -1091,7 +1091,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			return result;
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -1103,7 +1103,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -1115,12 +1115,12 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			}
 /******/ 		})();
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -1131,7 +1131,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nmd = (module) => {
@@ -1140,11 +1140,11 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			return module;
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	(() => {
 /******/ 		// no baseURI
-/******/
+/******/ 		
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
@@ -1152,19 +1152,19 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0
 /******/ 		};
-/******/
+/******/ 		
 /******/ 		// no chunk on demand loading
-/******/
+/******/ 		
 /******/ 		// no prefetching
-/******/
+/******/ 		
 /******/ 		// no preloaded
-/******/
+/******/ 		
 /******/ 		// no HMR
-/******/
+/******/ 		
 /******/ 		// no HMR manifest
-/******/
+/******/ 		
 /******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
-/******/
+/******/ 		
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
 /******/ 			var [chunkIds, moreModules, runtime] = data;
@@ -1189,41 +1189,20 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
-/******/
+/******/ 		
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();
-/******/
+/******/ 	
 /************************************************************************/
-/******/
+/******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/
+/******/ 	
 /******/ })()
 ;
-let number_format = (number, decimals, dec_point = '.', thousands_point = ',') => {
-
-    if(number == null || !isFinite(number)) {
-        throw new TypeError("number is not valid");
-    }
-
-    if(!decimals) {
-        let len = number.toString().split('.').length;
-        decimals = len > 1 ? len : 0;
-    }
-
-    number = parseFloat(number).toFixed(decimals);
-
-    number = number.replace('.', dec_point);
-
-    let splitNum = number.split(dec_point);
-    splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
-    number = splitNum.join(dec_point);
-
-    return number;
-}

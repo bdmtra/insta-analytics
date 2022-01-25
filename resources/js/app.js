@@ -21,3 +21,7 @@ let number_format = (number, decimals, dec_point = '.', thousands_point = ',') =
 
     return number;
 }
+
+document.querySelector("#form-account-store").addEventListener("submit", function(e){
+    document.querySelector("#form-account-store-help-text").innerHTML = 'Searching profile ...';
+});
