@@ -59,7 +59,7 @@ class AccountStat extends Model
 
     public function getEngagementAttribute()
     {
-        return ($this->averageStat('likes_count') / $this->followers_count);
+        return $this->followers_count ? ($this->averageStat('likes_count') / $this->followers_count) : 0;
     }
 
     public function getEngagementPercentageAttribute()
