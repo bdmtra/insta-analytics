@@ -9,6 +9,7 @@ use \GuzzleHttp\Client;
 use InstagramScraper\Exception\InstagramException;
 use App\Exceptions\InstagramParserNoProxiesException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
 
 class InstagramParser
 {
@@ -32,6 +33,8 @@ class InstagramParser
                 $this->handleScrapperException();
             } catch (RequestException $exception) {
                 $this->handleScrapperException();
+            }  catch (ConnectException $exception) {
+                $this->handleScrapperException();
             } catch (InstagramParserNoProxiesException $exception) {
                 return false;
             }
@@ -47,6 +50,8 @@ class InstagramParser
             } catch (InstagramException $exception) {
                 $this->handleScrapperException();
             } catch (RequestException $exception) {
+                $this->handleScrapperException();
+            }  catch (ConnectException $exception) {
                 $this->handleScrapperException();
             } catch (InstagramParserNoProxiesException $exception) {
                 return false;

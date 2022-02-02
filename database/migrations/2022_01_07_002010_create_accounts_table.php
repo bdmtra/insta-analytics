@@ -21,9 +21,9 @@ class CreateAccountsTable extends Migration
             $table->text('biography')->nullable();
             $table->string('profile_pic_filename', 512)->nullable();
             $table->boolean('is_verified')->nullable();
-            $table->integer('data_capture_status')->nullable()->default(Account::DATA_CAPTURE_STATUS_INACTIVE);
+            $table->integer('data_capture_status')->nullable()->default(0);
             $table->dateTime('data_captured_at')->nullable();
-            $table->integer('posts_data_capture_status')->nullable()->default(Account::DATA_CAPTURE_STATUS_INACTIVE);
+            $table->integer('posts_data_capture_status')->nullable()->default(0);
             $table->dateTime('posts_data_captured_at')->nullable();
             $table->timestamp('created_at');
         });

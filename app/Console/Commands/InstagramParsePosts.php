@@ -41,19 +41,15 @@ class InstagramParsePosts extends Command
      */
     public function handle()
     {
-        $accounts = Account::where('posts_data_capture_status', Account::DATA_CAPTURE_STATUS_INACTIVE)->where(function($q) {
+        $accounts = Account::where(function($q) {
             $q->whereDate('posts_data_captured_at', '<=', Carbon::now()->subMinutes(config('instagram.parser.period'))->toDateTimeString())
                 ->orWhereNull('posts_data_captured_at');
         })->get();
-        foreach ($accounts as $account) {
-            $account->update(['posts_data_capture_status' => Account::DATA_CAPTURE_STATUS_ACTIVE]);
-        }
         $instagramParser = new InstagramParser();
         foreach ($accounts as $account) {
             if($instagramParser->processAccountMedias($account)) {
                 $account->posts_data_captured_at = Carbon::now()->toDateTimeString();
             }
-            $account->posts_data_capture_status = Account::DATA_CAPTURE_STATUS_INACTIVE;
             $account->save();
         }
     }

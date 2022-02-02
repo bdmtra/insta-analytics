@@ -17,9 +17,6 @@ class Account extends Model
 
     const UPDATED_AT = null;
 
-    const DATA_CAPTURE_STATUS_INACTIVE = 0;
-    const DATA_CAPTURE_STATUS_ACTIVE = 1;
-
     public function stats()
     {
         return $this->hasMany(AccountStat::class)->orderBy('created_at', 'DESC');
