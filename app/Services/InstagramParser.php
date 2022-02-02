@@ -85,7 +85,7 @@ class InstagramParser
 
     public function setNewScraper() {
         $this->setNewProxy();
-        $this->scrapper = new Instagram(new Client(['proxy' => $this->currentProxy->uri]));
+        $this->scrapper = new Instagram(new Client(/*['proxy' => $this->currentProxy->uri]*/));
     }
 
     public function setNewProxy() {
