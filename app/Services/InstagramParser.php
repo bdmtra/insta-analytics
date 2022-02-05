@@ -28,8 +28,8 @@ class InstagramParser
     public function fetchAccount($username) {
         $accountResponse = null;
         while (!$accountResponse) {
-            try {
                 $accountResponse = $this->scrapper->getAccount($username);
+            try {
             } catch (InstagramException $exception) {
                 $this->handleScrapperException();
             } catch (RequestException $exception) {
@@ -90,7 +90,7 @@ class InstagramParser
 
     public function setNewScraper() {
         $this->setNewProxy();
-        $this->scrapper = new Instagram(new Client(['proxy' => $this->currentProxy->uri]));
+        $this->scrapper = new Instagram(new Client(['proxy' => $this->currentProxy->uri, 'verify' => false]));
     }
 
     public function setNewProxy() {
