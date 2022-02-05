@@ -8,6 +8,7 @@ use App\Models\Proxy;
 use \GuzzleHttp\Client;
 use InstagramScraper\Exception\InstagramException;
 use InstagramScraper\Exception\InstagramNotFoundException;
+use InstagramScraper\Exception\InstagramAgeRestrictedException;
 use App\Exceptions\InstagramParserNoProxiesException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
@@ -40,6 +41,8 @@ class InstagramParser
                 return false;
             } catch (InstagramNotFoundException $exception) {
                 return false;
+            } catch (InstagramAgeRestrictedException $exception) {
+                return false;
             }
         }
         return $accountResponse;
@@ -59,6 +62,8 @@ class InstagramParser
             } catch (InstagramParserNoProxiesException $exception) {
                 return false;
             } catch (InstagramNotFoundException $exception) {
+                return false;
+            } catch (InstagramAgeRestrictedException $exception) {
                 return false;
             }
         }
