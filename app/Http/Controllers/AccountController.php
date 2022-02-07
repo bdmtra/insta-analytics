@@ -38,7 +38,7 @@ class AccountController extends Controller
             } catch (InstagramNotFoundException $exception) {
                 $validator->errors()->add('username', 'Such Instagram account doesn\'t exist');
                 return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
-            } catch (InstagramParserNoProxiesException $exception) {
+            } catch (\Exception $exception) {
                 $validator->errors()->add('username', 'Can\'t process this request now. Please try again later');
                 return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
             }

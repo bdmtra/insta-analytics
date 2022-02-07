@@ -41,7 +41,7 @@ class InstagramParser
                 return false;
             } catch (InstagramNotFoundException $exception) {
                 return false;
-            } catch (InstagramAgeRestrictedException $exception) {
+            } catch (\Exception $exception) {
                 return false;
             }
         }
@@ -63,7 +63,7 @@ class InstagramParser
                 return false;
             } catch (InstagramNotFoundException $exception) {
                 return false;
-            } catch (InstagramAgeRestrictedException $exception) {
+            } catch (\Exception $exception) {
                 return false;
             }
         }
