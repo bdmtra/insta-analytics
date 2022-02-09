@@ -38,11 +38,11 @@ class InstagramParser
             }  catch (ConnectException $exception) {
                 $this->handleScrapperException();
             } catch (InstagramParserNoProxiesException $exception) {
-                return false;
+                return $exception;
             } catch (InstagramNotFoundException $exception) {
-                return false;
+                return $exception;
             } catch (\Exception $exception) {
-                return false;
+                return $exception;
             }
         }
         return $accountResponse;
@@ -60,11 +60,11 @@ class InstagramParser
             }  catch (ConnectException $exception) {
                 $this->handleScrapperException();
             } catch (InstagramParserNoProxiesException $exception) {
-                return false;
+                return $exception;
             } catch (InstagramNotFoundException $exception) {
-                return false;
+                return $exception;
             } catch (\Exception $exception) {
-                return false;
+                return $exception;
             }
         }
         return $mediasResponse;
@@ -74,7 +74,7 @@ class InstagramParser
         while (!isset($prevMediasResponse) || $prevMediasResponse['hasNextPage']) {
             $maxId = isset($prevMediasResponse) ? $prevMediasResponse['maxId'] : '';
             $mediasResponse = $this->fetchPaginateMedias($account->username, $maxId);
-            if ($mediasResponse) {
+            if (is_array($mediasResponse)) {
                 foreach ($mediasResponse['medias'] as $media) {
                     $account->saveAccountPost($media);
                 }

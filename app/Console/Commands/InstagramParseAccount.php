@@ -6,7 +6,7 @@ use App\Models\Account;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use App\Services\InstagramParser;
-
+use InstagramScraper\Model\Account as InstagramScraperAccount;
 
 class InstagramParseAccount extends Command
 {
@@ -48,11 +48,11 @@ class InstagramParseAccount extends Command
         $instagramParser = new InstagramParser();
         foreach ($accounts as $account) {
             $accountResponse = $instagramParser->fetchAccount($account->username);
-            if($accountResponse) {
+            if($accountResponse instanceof InstagramScraperAccount) {
                 $account->saveAccountStat($accountResponse);
                 $account->data_captured_at = Carbon::now()->toDateTimeString();
+                $account->save();
             }
-            $account->save();
         }
     }
 }

@@ -35,6 +35,9 @@ class AccountController extends Controller
             $instagramParser = new InstagramParser();
             try {
                 $accountResponse = $instagramParser->fetchAccount($username);
+                if ($accountResponse instanceof \Exception) {
+                    throw $accountResponse;
+                }
             } catch (InstagramNotFoundException $exception) {
                 $validator->errors()->add('username', 'Such Instagram account doesn\'t exist');
                 return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
