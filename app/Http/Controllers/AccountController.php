@@ -28,6 +28,7 @@ class AccountController extends Controller
 
         $validator = Validator::make(Input::all(), [
             'username' => 'required|max:30',
+            recaptchaFieldName() => recaptchaRuleName()
         ]);
         if ($validator->failed()) {
             return Redirect::to('/')->withErrors($validator)->withInput(Input::all());
