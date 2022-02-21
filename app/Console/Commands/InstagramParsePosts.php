@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use App\Services\InstagramParser;
+use Illuminate\Support\Facades\Log;
 
 
 class InstagramParsePosts extends Command
@@ -47,9 +48,11 @@ class InstagramParsePosts extends Command
         })->get();
         $instagramParser = new InstagramParser();
         foreach ($accounts as $account) {
+            Log::channel('instagram-parser')->info('Start to parse posts of '.$account->username. ' account');
             if($instagramParser->processAccountMedias($account)) {
                 $account->posts_data_captured_at = Carbon::now()->toDateTimeString();
             }
+            Log::channel('instagram-parser')->info('Stop to parse posts of '.$account->username. ' account');
             $account->save();
         }
     }

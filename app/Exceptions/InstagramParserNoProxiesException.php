@@ -9,7 +9,7 @@ class InstagramParserNoProxiesException extends \Exception
 {
     public function __construct($message = "", $code = 404, $previous = null)
     {
-        Log::error('No more usable proxies available');
+        Log::channel('instagram-parser')->error('No more usable proxies available');
         parent::__construct($message, $code, $previous);
     }
 }

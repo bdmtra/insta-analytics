@@ -12,6 +12,7 @@ use InstagramScraper\Exception\InstagramAgeRestrictedException;
 use App\Exceptions\InstagramParserNoProxiesException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Support\Facades\Log;
 
 class InstagramParser
 {
@@ -31,17 +32,20 @@ class InstagramParser
         while (!$accountResponse) {
             try {
                 $accountResponse = $this->scrapper->getAccount($username);
+                Log::channel('instagram-parser')->info('Got account`s info');
             } catch (InstagramException $exception) {
-                $this->handleScrapperException();
+                $this->handleScrapperException($exception);
             } catch (RequestException $exception) {
-                $this->handleScrapperException();
+                $this->handleScrapperException($exception);
             }  catch (ConnectException $exception) {
-                $this->handleScrapperException();
+                $this->handleScrapperException($exception);
             } catch (InstagramParserNoProxiesException $exception) {
                 return $exception;
             } catch (InstagramNotFoundException $exception) {
+                Log::channel('instagram-parser')->info($exception->getMessage());
                 return $exception;
             } catch (\Exception $exception) {
+                Log::channel('instagram-parser')->info($exception->getMessage());
                 return $exception;
             }
         }
@@ -53,17 +57,20 @@ class InstagramParser
         while (!$mediasResponse) {
             try {
                 $mediasResponse = $this->scrapper->getPaginateMedias($username, $maxId);
+                Log::channel('instagram-parser')->info('Got account`s posts');
             } catch (InstagramException $exception) {
-                $this->handleScrapperException();
+                $this->handleScrapperException($exception);
             } catch (RequestException $exception) {
-                $this->handleScrapperException();
+                $this->handleScrapperException($exception);
             }  catch (ConnectException $exception) {
-                $this->handleScrapperException();
+                $this->handleScrapperException($exception);
             } catch (InstagramParserNoProxiesException $exception) {
                 return $exception;
             } catch (InstagramNotFoundException $exception) {
+                Log::channel('instagram-parser')->info($exception->getMessage());
                 return $exception;
             } catch (\Exception $exception) {
+                Log::channel('instagram-parser')->info($exception->getMessage());
                 return $exception;
             }
         }
@@ -86,10 +93,13 @@ class InstagramParser
         return true;
     }
 
-    public function handleScrapperException() {
+    public function handleScrapperException($exception) {
+        Log::channel('instagram-parser')->info($exception->getMessage());
         $this->currentProxyErrorCount++;
         if ($this->currentProxyErrorCount == self::MAX_PROXY_ERRORS) {
             $this->setNewScraper();
+        } else {
+            Log::channel('instagram-parser')->info('Retry with current proxy');
         }
     }
 
@@ -108,6 +118,7 @@ class InstagramParser
         if(!$this->currentProxy) {
             throw new InstagramParserNoProxiesException();
         }
+        Log::channel('instagram-parser')->info('Switch to proxy '.$this->currentProxy->uri);
 
         return $this->currentProxy;
     }

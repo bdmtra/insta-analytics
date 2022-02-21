@@ -113,6 +113,10 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'instagram-parser' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/instagram-parser.log'),
+        ],
     ],
 
 ];
