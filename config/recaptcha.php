@@ -128,7 +128,7 @@ return [
      * Default 'validation.recaptcha'
      *
      */
-    'error_message_key' => 'validation.recaptcha',
+    'error_message_key' => "Your request didn't pass spam protection, please retry",
 
     /**
      *
