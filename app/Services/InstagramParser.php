@@ -22,6 +22,8 @@ class InstagramParser
 
     const MAX_PROXY_ERRORS = 5;
 
+    const MAX_EXECUTION_PREVENT_TIME = 5;
+
     public function __construct()
     {
         $this->setNewScraper();
@@ -94,6 +96,13 @@ class InstagramParser
     }
 
     public function handleScrapperException($exception) {
+
+        if (!app()->runningInConsole() && $requestTime = $_SERVER["REQUEST_TIME"]) {
+            $currentExecutionTime  = time() - $requestTime;
+            if (ini_get("max_execution_time") - $currentExecutionTime <= self::MAX_EXECUTION_PREVENT_TIME) {
+                throw new \Exception();
+            }
+        }
         Log::channel('instagram-parser')->info($exception->getMessage());
         $this->currentProxyErrorCount++;
         if ($this->currentProxyErrorCount == self::MAX_PROXY_ERRORS) {
